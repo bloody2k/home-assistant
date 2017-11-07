@@ -1,0 +1,52 @@
+automation:
+    - alias: Sofia Seng Dimming
+      hide_entity: True
+      initial_state: 'on'
+      trigger:
+        - platform: event
+          event_type: click
+          event_data:
+            entity_id: binary_sensor.switch_158d00018b3e79
+            click_type: long_click_press
+      condition:
+        - condition: state
+          entity_id: light.seng_sofia
+          state: 'on'
+      action:
+        - service: script.turn_on
+          entity_id: script.dim_light
+          data_template:
+            variables:
+              lyskilde: 'seng_sofia'
+              remote: >
+                {{ trigger.event.data["entity_id"] }}
+          
+    - alias: Sofia Seng Dim Toggle
+      hide_entity: True
+      initial_state: 'on'
+      trigger:
+        - platform: event
+          event_type: click
+          event_data:
+            entity_id: binary_sensor.switch_158d00018b3e79
+            click_type: hold
+      condition:
+        - condition: state
+          entity_id: light.seng_sofia
+          state: 'on'
+      action:
+        - service: input_boolean.toggle
+          entity_id: input_boolean.light_dim
+          
+    - alias: Sofia Seng Light Toggle
+      hide_entity: True
+      initial_state: 'on'
+      trigger:
+        - platform: event
+          event_type: click
+          event_data:
+            entity_id: binary_sensor.switch_158d00018b3e79
+            click_type: single
+      action:
+        - service: light.toggle
+          entity_id: light.seng_sofia

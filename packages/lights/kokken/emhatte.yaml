@@ -1,0 +1,57 @@
+automation:
+- alias: 'Emhætte lys tænd'
+  hide_entity: True
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.fibaro_system_fgms001zw5_motion_sensor_sensor
+      to: 'on'
+  condition:
+    - condition: state
+      entity_id: binary_sensor.indoor_lights_auto_on
+      state: 'on'
+  action:
+    - service: light.turn_on
+      entity_id: 
+        - light.kodeplade
+      data:
+        brightness: 254
+        transition: 5
+
+- alias: 'Emhætte lys dimming'
+  hide_entity: True
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.fibaro_system_fgms001zw5_motion_sensor_sensor
+      to: 'off'
+      for:
+        minutes: 5
+  condition:
+    - condition: state
+      entity_id: light.kodeplade
+      state: 'on'
+  action:
+    - service: light.turn_on
+      entity_id: 
+        - light.kodeplade
+      data:
+        brightness: 100
+        transition: 15
+
+- alias: 'Emhætte lys dimming'
+  hide_entity: True
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.fibaro_system_fgms001zw5_motion_sensor_sensor
+      to: 'off'
+      for:
+        minutes: 20
+  condition:
+    - condition: state
+      entity_id: light.kodeplade
+      state: 'on'
+  action:
+    - service: light.turn_off
+      entity_id: 
+        - light.kodeplade
+      data:
+        transition: 15

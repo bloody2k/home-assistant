@@ -1,0 +1,109 @@
+automation:
+    - alias: Fibaro Button 1 Push
+      hide_entity: True
+      initial_state: 'on'
+      trigger:
+        - platform: event
+          event_type: zwave.scene_activated
+          event_data:
+            entity_id: zwave.fibaro_system_fgpb101_button
+            scene_data: 0
+      action:
+        - service: notify.notify
+          data_template:
+            title: 'Fibaro Button 1 Push'
+            message: '{{ trigger.event.data["scene_id"] }} , {{ trigger.event.data["scene_data"] }}'
+
+    - alias: Fibaro Button 2 Push
+      hide_entity: True
+      initial_state: 'on'
+      trigger:
+        - platform: event
+          event_type: zwave.scene_activated
+          event_data:
+            entity_id: zwave.fibaro_system_fgpb101_button
+            scene_data: 3
+      action:
+        - service: notify.notify
+          data_template:
+            title: 'Fibaro Button 2 Push'
+            message: '{{ trigger.event.data["scene_id"] }} , {{ trigger.event.data["scene_data"] }}'
+
+
+    - alias: Fibaro Button 3 Push
+      hide_entity: True
+      initial_state: 'on'
+      trigger:
+        - platform: event
+          event_type: zwave.scene_activated
+          event_data:
+            entity_id: zwave.fibaro_system_fgpb101_button
+            scene_data: 4
+      action:
+        - service: notify.notify
+          data_template:
+            title: 'Fibaro Button 3 Push'
+            message: '{{ trigger.event.data["scene_id"] }} , {{ trigger.event.data["scene_data"] }}'
+
+    - alias: Fibaro Button 4 Push
+      hide_entity: True
+      initial_state: 'on'
+      trigger:
+        - platform: event
+          event_type: zwave.scene_activated
+          event_data:
+            entity_id: zwave.fibaro_system_fgpb101_button
+            scene_data: 5
+      action:
+        - service: notify.notify
+          data_template:
+            title: 'Fibaro Button 4 Push'
+            message: '{{ trigger.event.data["scene_id"] }} , {{ trigger.event.data["scene_data"] }}'
+
+
+    - alias: Fibaro Button 5 Push
+      hide_entity: True
+      initial_state: 'on'
+      trigger:
+        - platform: event
+          event_type: zwave.scene_activated
+          event_data:
+            entity_id: zwave.fibaro_system_fgpb101_button
+            scene_data: 6
+      action:
+        - service: notify.notify
+          data_template:
+            title: 'Fibaro Button 5 Push'
+            message: '{{ trigger.event.data["scene_id"] }} , {{ trigger.event.data["scene_data"] }}'
+
+
+    - alias: Fibaro Button Hold
+      hide_entity: True
+      initial_state: 'on'
+      trigger:
+        - platform: event
+          event_type: zwave.scene_activated
+          event_data:
+            entity_id: zwave.fibaro_system_fgpb101_button
+            scene_data: 2
+      action:
+        - service: notify.notify
+          data_template:
+            title: 'Fibaro Button Hold'
+            message: '{{ trigger.event.data["scene_id"] }} , {{ trigger.event.data["scene_data"] }}'
+
+
+    - alias: Fibaro Button Release
+      hide_entity: True
+      initial_state: 'on'
+      trigger:
+        - platform: event
+          event_type: zwave.scene_activated
+          event_data:
+            entity_id: zwave.fibaro_system_fgpb101_button
+            scene_data: 1
+      action:
+        - service: notify.notify
+          data_template:
+            title: 'Fibaro Button Release'
+            message: '{{ trigger.event.data["scene_id"] }} , {{ trigger.event.data["scene_data"] }}'

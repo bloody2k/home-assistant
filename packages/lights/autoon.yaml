@@ -1,0 +1,52 @@
+binary_sensor:
+    - platform: template
+      sensors:
+        indoor_lights_auto_on:
+          friendly_name: 'Indendørslys Auto'
+          value_template: >-
+              {%- if is_state("input_boolean.bedtime","off") and is_state("group.anyonehome","home") -%}
+                {%- if (states.sun.sun.attributes.elevation | int < 10 ) -%}
+                  True
+                {%- elif ( (states.sun.sun.attributes.elevation | int < 25) and (states.sensor.dark_sky_cloud_coverage.state | int > 50)) -%}
+                  True
+                {%- elif (states.sensor.dark_sky_cloud_coverage.state | int > 95) -%}
+                  True
+                {%- else -%}
+                  False
+                {%- endif -%}
+              {%- else -%}
+                False
+              {%- endif -%}
+          entity_id:
+              - sun.sun
+              - sensor.dark_sky_cloud_coverage
+              - input_boolean.bedtime
+              - group.anyonehome
+
+automation:
+- alias: 'Auto Light On'
+  hide_entity: True
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.indoor_lights_auto_on
+      to: 'on'
+  action:
+    - service: light.turn_on
+      entity_id: 
+        - light.kkkenbord
+        - light.spisebord
+        - light.standerlampe
+      data:
+        brightness: 200
+        
+- alias: 'Auto Light Off'
+  hide_entity: True
+  initial_state: 'off'
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.indoor_lights_auto_on
+      to: 'off'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: group.all_lights
+

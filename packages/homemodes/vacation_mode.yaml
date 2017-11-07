@@ -1,0 +1,105 @@
+homeassistant:
+  customize:
+    input_boolean.vacation:
+      homebridge_hidden: false
+    input_boolean.guestmode:
+      homebridge_hidden: false
+
+input_boolean:
+  vacation:
+    name: Ferietid
+    initial: off
+    icon: mdi:airplane
+
+automation:
+  - alias: "Vacation Detective On"
+    initial_state: True
+    hide_entity: True
+    trigger:
+      - platform: state
+        entity_id: group.anyonehome
+        to: "not_home"
+        for:
+          hours: 24
+    condition:
+      - condition: state
+        entity_id: input_boolean.vacation
+        state: 'off'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.vacation
+        
+  - alias: "Vacation Detective Off"
+    initial_state: True
+    hide_entity: True
+    trigger:
+      - platform: state
+        entity_id: group.anyonehome
+        to: "home"
+    condition:
+      - condition: state
+        entity_id: input_boolean.vacation
+        state: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.vacation
+
+  - alias: "Vacation Light On"
+    initial_state: True
+    hide_entity: True
+    trigger:
+      - platform: sun
+        event: sunset
+        offset: '-00:45:00'
+      - platform: state
+        entity_id: input_boolean.vacation
+        to: "on"
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: input_boolean.vacation
+          state: 'on'
+        - condition: sun
+          after: sunset
+          after_offset: "-00:45:00"
+    action:
+      - delay: '00:{{ (range(0, 25)|random|int) }}:00'
+      - service: light.turn_on
+        entity_id: 
+          - light.kkkenbord
+          - light.spisebord
+        data:
+          brightness: 200
+      - delay: '{{ (range(0, 1)|random|int) }}:{{ (range(1, 59)|random|int) }}:00'
+      - service: light.turn_on
+        entity_id: 
+          - light.standerlampe
+        data:
+          brightness: 200
+        
+  - alias: "Vacation Light Off"
+    initial_state: True
+    hide_entity: True
+    trigger:
+      - platform: time
+        at: '22:30:00'
+    condition:
+      - condition: state
+        entity_id: input_boolean.vacation
+        state: 'on'
+    action:
+      - delay: '00:{{ (range(0, 30)|random|int) }}:00'
+      - service: light.turn_on
+        entity_id: 
+          - light.sovevrelse
+      - delay: '00:{{ (range(2, 10)|random|int) }}:00'
+      - service: light.turn_off
+        entity_id: 
+          - light.kkkenbord
+          - light.spisebord
+          - light.standerlampe
+      - delay: '00:{{ (range(5, 15)|random|int) }}:00'
+      - service: light.turn_off
+        entity_id: 
+          - light.sovevrelse

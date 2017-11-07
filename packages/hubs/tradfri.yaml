@@ -1,0 +1,49 @@
+homeassistant:
+  customize:
+#### Fjernbetjeninger ####
+    sensor.emma_dmper:
+      hidden: true
+    sensor.fjernbetjening1:
+      hidden: true
+
+#### Pærer ####
+    light.emma_loft:
+      hidden: true
+    light.kkkenbord_1:
+      hidden: true
+    light.kkkenbord_2:
+      hidden: true
+    light.seng_sofia:
+      homebridge_hidden: false
+      hidden: true
+    light.seng_stefan:
+      homebridge_hidden: false
+      hidden: true
+    light.spisebord_1:
+      hidden: true
+    light.spisebord_2:
+      hidden: true
+    light.standerlampe:
+      homebridge_hidden: false
+      hidden: true
+    light.kkkenbord:
+      homebridge_hidden: false
+    light.sovevrelse:
+      homebridge_hidden: false
+    light.spisebord:
+      homebridge_hidden: false
+
+
+tradfri:
+  host: 192.168.1.110
+
+group:
+  ikea_rum:
+    name: Ikea Rum
+    control: hidden
+    entities:
+      - light.emma
+      - light.kkkenbord
+      - light.sovevrelse
+      - light.stue
+      - light.spisebord

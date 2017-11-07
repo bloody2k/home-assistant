@@ -1,0 +1,140 @@
+homeassistant:
+  customize:
+    alarm_control_panel.alarm_panel:
+      friendly_name: Alarm
+      homebridge_hidden: false
+
+alarm_control_panel:
+  - platform: bwalarm
+    name: Alarm Panel
+    pending_time: 30
+    trigger_time: 120
+    alarm: automation.alarm_triggered
+    warning: automation.alarm_announce_warning
+    ##headsup:
+    ##    - lock.backdoorlock_locked_17_0
+    immediate:
+        - binary_sensor.door_window_sensor_158d0001d86bbb
+        - binary_sensor.door_window_sensor_158d0001d84ea5
+        - binary_sensor.motion_sensor_158d0001a66340
+        - binary_sensor.motion_sensor_158d000165ffa0
+        - binary_sensor.pirgang
+        - binary_sensor.pirstue
+    delayed:
+        - binary_sensor.pirgang
+        - binary_sensor.door_window_sensor_158d0001d84b39
+    notathome:
+        - binary_sensor.motion_sensor_158d0001a66340
+        - binary_sensor.motion_sensor_158d000165ffa0
+        - binary_sensor.pirgang
+        - binary_sensor.pirstue
+
+automation:
+- alias: 'Alarm RFlink Remote'
+  hide_entity: True
+  trigger:
+    - platform: event
+      event_type: button_pressed
+      event_data: {"entity_id": "light.rf_alarm_remote"}
+  action:
+    - service_template: >
+        {% if is_state('light.rf_alarm_remote', 'on') %}
+          alarm_control_panel.alarm_arm_away
+        {% else %}
+          alarm_control_panel.alarm_disarm
+        {% endif %}
+
+- alias: 'Alarm Announce Disarmed'
+  hide_entity: True
+  trigger:
+    - platform: state
+      entity_id: alarm_control_panel.alarm_panel
+      to: 'disarmed'
+  action:
+    - service: script.turn_on
+      entity_id: script.xiaomi_flash
+      data:
+        variables:
+          color: 'green'
+          delay: '3'
+    - service: notify.notify
+      data:
+        title: 'Alarm'
+        message: 'Alarmen er slået fra !'
+##    - service: script.turn_on
+##      entity_id: script.sonos_say
+##      data:
+##        variables:
+##          where: 'kkken'
+##          what: 'Alarmen er slået fra!'
+##    - service: xiaomi_aqara.stop_ringtone
+##      data:
+##        gw_mac: 286c0785eedc
+
+- alias: 'Alarm Announce Armed Home'
+  hide_entity: True
+  trigger:
+    - platform: state
+      entity_id: alarm_control_panel.alarm_panel
+      to: 'armed_home'
+  action:
+    - service: script.turn_on
+      entity_id: script.xiaomi_flash
+      data:
+        variables:
+          color: 'orangered'
+          delay: '3'
+    - service: notify.notify
+      data:
+        title: 'Alarm'
+        message: 'Alarmen er slået til  (Hjemme) !'
+##    - service: script.turn_on
+##      entity_id: script.sonos_say
+##      data:
+##        variables:
+##          where: 'kkken'
+##          what: 'Alarmen er slået til. Huset er sikkert!'
+        
+- alias: 'Alarm Announce Armed Away'
+  hide_entity: True
+  trigger:
+    - platform: state
+      entity_id: alarm_control_panel.alarm_panel
+      to: 'pending'
+  action:
+    - service: script.turn_on
+      entity_id: script.xiaomi_flash
+      data:
+        variables:
+          color: 'red'
+          delay: '3'
+    - service: notify.notify
+      data:
+        title: 'Alarm'
+        message: 'Alarmen er slået til (Ude) !'
+##    - service: script.turn_on
+##      entity_id: script.sonos_say
+##      data:
+##        variables:
+##          where: 'kkken'
+##          what: 'Alarmen er slået til. God tur!'
+
+- alias: 'Alarm Announce Warning'
+  hide_entity: True
+  trigger:
+    - platform: state
+      entity_id: alarm_control_panel.alarm_panel
+      to: 'warning'
+  action:
+    - service: script.turn_on
+      entity_id: script.xiaomi_flash
+      data:
+        variables:
+          color: 'red'
+          delay: '20'
+    - service: script.turn_on
+      entity_id: script.sonos_say
+      data:
+        variables:
+          where: 'kkken'
+          what: 'Påmindelse! Alarmen er aktiveret.'

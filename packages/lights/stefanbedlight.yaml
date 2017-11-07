@@ -1,0 +1,46 @@
+homeassistant:
+  customize:
+    script.dim_light:
+      hidden: true
+    input_boolean.light_dim:
+      hidden: true
+
+input_boolean:
+  light_dim:
+    name: Dim Light
+    initial: off
+    
+##  On button release(off) toggle inputboolean_dim
+## Altid start med et dæmpe, hvis muligt?
+script:
+  dim_light:
+    sequence:
+      - condition: template
+        value_template: '{{ is_state(remote, "on") }}'
+      - service: light.turn_on
+        data_template:
+          entity_id: "{{ 'light.' ~ lyskilde }}"
+          brightness: >
+            {% if is_state('input_boolean.light_dim', 'on') %}
+              {% if states.light[lyskilde].attributes.brightness > 20 %}
+                {{ states.light[lyskilde].attributes.brightness - 10}}
+              {% else %}
+                {{ 10 }}
+              {% endif %}
+            {% else %}
+              {% if states.light[lyskilde].attributes.brightness < 244 %}
+                {{ states.light[lyskilde].attributes.brightness + 10}}
+              {% else %}
+                {{ 254 }}
+              {% endif %}
+            {% endif %}
+      - service: script.turn_off
+        entity_id: script.dim_light
+      - service: script.turn_on
+        entity_id: script.dim_light
+        data_template:
+          variables:
+            lyskilde: >
+              {{ lyskilde }}
+            remote: >
+              {{ remote }}

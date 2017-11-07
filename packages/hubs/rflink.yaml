@@ -1,0 +1,80 @@
+homeassistant:
+  customize:
+  # ---------- RF Link ----------- #
+    light.rfpir_stue:
+      hidden: true
+    light.rfpir_gang:
+      hidden: true
+    light.rf_alarm_remote:
+      hidden: true
+
+# RFLink Config
+rflink:
+  port: /dev/ttyACM0
+  ignore_devices:
+  ## RFLINK IGNORED DEVICES ##
+    - fineoffset_*
+    - warema_*
+    - digitech_*
+
+binary_sensor:
+  - platform: template 
+    sensors:
+      pirgang:
+        friendly_name: PIR Gang
+        value_template: "{{ states.light.rfpir_gang.state == 'on' }}"
+        device_class: motion
+      pirstue:
+        friendly_name: PIR Stue
+        value_template: "{{ states.light.rfpir_stue.state == 'on' }}"
+        device_class: motion
+
+sensor:
+  - platform: rflink
+    automatic_add: true
+
+switch:
+  - platform: rflink
+  
+light:
+## RF LINK ##
+  - platform: rflink
+    automatic_add: true
+    devices:
+      chuango_bb7d75_02:
+        name: RF-PIR Gang
+        aliases:
+          - chuango_3b7d75_02
+      chuango_b70d79_02:
+        name: RF-PIR Stue
+      chuango_df8f6e_02:
+        name: RF Alarm Remote
+        fire_event: true
+        aliases:
+        ## Stefan Remote
+          - chuango_df8f67_02
+          - chuango_3498a7_02
+          - chuango_3498ae_02
+        ## Sofia Remote
+          - chuango_bc0717_02
+          - chuango_bc071e_02
+
+automation:
+- alias: 'RFlink - Sluk PIR'
+  hide_entity: True
+  trigger:
+    - platform: state
+      entity_id: light.rfpir_stue
+      to: 'on'
+      for:
+        minutes: 2
+    - platform: state
+      entity_id: light.rfpir_gang
+      to: 'on'
+      for:
+        minutes: 2
+  action:
+    - service: light.turn_off
+      data_template:
+        entity_id: "{{ trigger.entity_id }}"
+

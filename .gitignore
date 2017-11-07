@@ -1,6 +1,10 @@
-*
+*.*
 !*.yaml
 !packages/*
 !.gitignore
 secrets.yaml
 known_devices.yaml
+
+deps
+homebridge
+tts

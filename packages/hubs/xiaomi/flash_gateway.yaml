@@ -1,0 +1,17 @@
+homeassistant:
+  customize:
+    script.xiaomi_flash:
+      hidden: true
+      
+script:
+  xiaomi_flash:
+    alias: Flash Xiaomi Gateway Light
+    sequence:
+      - service: light.turn_on
+        data_template:
+          entity_id: light.gateway_light_286c0785eedc
+          color_name: '{{ color }}' 
+      - delay: '00:00:{{ delay | int }}'
+      - service: light.turn_off
+        data:
+          entity_id: light.gateway_light_286c0785eedc

@@ -1,0 +1,15 @@
+##homeassistant:
+##  customize:
+##    light.gateway_light_286c0785eedc:
+##      friendly_name: Xiaomi Gateway
+
+device_tracker:
+  - platform: bluetooth_tracker
+  
+group:
+  anyonehome:
+    name: Hjemmestatus
+    control: hidden
+    entities:
+      - device_tracker.stefans_iphone
+      - device_tracker.sofias_iphone_

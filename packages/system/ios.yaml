@@ -1,0 +1,33 @@
+ios:
+  push:
+    categories:
+      - name: leave
+        identifier: 'LEAVE'
+        actions:
+          - identifier: 'ARM_ALARM'
+            title: 'Slå alarmen til!'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: no
+            behavior: 'default'
+          - identifier: 'NONE'
+            title: 'Gør ikke noget!'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: no
+            behavior: 'default'
+      - name: enter
+        identifier: 'ENTER'
+        actions:
+          - identifier: 'DISARM_ALARM'
+            title: 'Slå alarmen fra!'
+            activationMode: 'background'
+            authenticationRequired: yes
+            destructive: no
+            behavior: 'default'
+          - identifier: 'NONE'
+            title: 'Gør ikke noget!'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: no
+            behavior: 'default'

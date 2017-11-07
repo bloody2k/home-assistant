@@ -1,0 +1,55 @@
+automation:
+  - alias: "Send notification upon failed login attempt"
+    initial_state: True
+    hide_entity: True
+    trigger:
+      - platform: state
+        entity_id: persistent_notification.httplogin
+    condition:
+      - condition: template
+        value_template: "{{ trigger.to_state.state != 'None' }}"
+    action:
+      - service: notify.notify
+        data_template:
+          title: "Failed Home Assistant login!"
+          message: "{{ trigger.to_state.state }}"
+
+  - alias: "Send notification upon IP Change"
+    initial_state: True
+    hide_entity: True
+    trigger:
+      - platform: state
+        entity_id: sensor.myipopendnscom
+    action:
+      - service: notify.notify
+        data_template:
+          title: "HomeAssistant Info"
+          message: "IP ændret: {{ trigger.from_state.state }} til {{ trigger.to_state.state }}"
+
+  - alias: "Send notification upon HASS Start"
+    initial_state: True
+    hide_entity: True
+    trigger:
+      - platform: homeassistant
+        event: start
+    action:
+      - service: notify.notify
+        data_template:
+          title: "HomeAssistant Info"
+          message: "Started {{now().strftime('%H:%M - %d.%m.%Y')}}"
+      - delay: 00:00:10
+      - service: notify.notify
+        data:
+         message: "request_location_update"
+
+  - alias: "Send notification upon Update Available"
+    initial_state: True
+    hide_entity: True
+    trigger:
+      - platform: state
+        entity_id: updater.updater
+    action:
+      - service: notify.notify
+        data_template:
+          title: "HomeAssistant Info"
+          message: "Opdatering tilgængelig"

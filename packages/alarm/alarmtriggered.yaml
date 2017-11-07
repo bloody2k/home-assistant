@@ -1,0 +1,43 @@
+automation:
+- alias: 'Alarm Triggered'
+  hide_entity: True
+  trigger:
+    - platform: state
+      entity_id: alarm_control_panel.alarm_panel
+      to: 'triggered'
+  action:
+    - service: script.turn_on
+      entity_id: script.xiaomi_flash
+      data:
+        variables:
+          color: 'red'
+          delay: '10'
+    - service: xiaomi_aqara.play_ringtone
+      data:
+        gw_mac: 286c0785eedc
+        ringtone_id: 2
+        ringtone_vol: 10
+    - service: notify.notify
+      data_template:
+        title: 'Alarmen er udløst!'
+        message: '{{ states.alarm_control_panel.alarm_panel.attributes.changed_by }}'
+##    - service: script.turn_on
+##      entity_id: script.sonos_say
+##      data:
+##        variables:
+##          where: 'kkken'
+##          what: 'Alarmen er slået fra!'
+##    - service: xiaomi_aqara.stop_ringtone
+##      data:
+##        gw_mac: 286c0785eedc
+
+- alias: 'Alarm Cancelled'
+  hide_entity: True
+  trigger:
+    - platform: state
+      entity_id: alarm_control_panel.alarm_panel
+      from: 'triggered'
+  action:
+    - service: xiaomi_aqara.stop_ringtone
+      data:
+        gw_mac: 286c0785eedc

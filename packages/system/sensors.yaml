@@ -1,0 +1,10 @@
+sensor:
+  - platform: dnsip
+  
+  - platform: speedtest
+    hour:
+      - 3
+    monitored_conditions:
+    - ping
+    - download
+    - upload
