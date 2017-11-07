@@ -1,0 +1,12 @@
+sensor.fibaro_system_fgpb101_button_burglar:
+  ignored: true
+  polling_intensity: 0
+sensor.fibaro_system_fgpb101_button_sourcenodeid:
+  ignored: true
+  polling_intensity: 0
+sensor.fibaro_system_fgpb101_button_alarm_level:
+  ignored: true
+  polling_intensity: 0
+sensor.fibaro_system_fgpb101_button_alarm_type:
+  ignored: true
+  polling_intensity: 0

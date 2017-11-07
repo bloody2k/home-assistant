@@ -1,0 +1,34 @@
+sensor:
+  - platform: yr
+    name: Weather
+    forecast: 24
+    monitored_conditions:
+      - temperature
+      - symbol
+      - precipitation
+      - windSpeed
+      - humidity
+
+  - platform: darksky
+    api_key: e9465c9569b78e0a1353f0b2e6e557af
+    monitored_conditions:
+      - summary
+      - icon
+      - nearest_storm_distance
+      - cloud_cover
+      - hourly_summary
+
+group:
+  weather:
+    name: Vejr
+    entities:
+      - sensor.weather_symbol
+      - sensor.weather_temperature
+      - sensor.weather_humidity
+      - sensor.weather_precipitation
+      - sensor.weather_wind_speed
+      - sensor.dark_sky_icon
+      - sensor.dark_sky_summary
+      - sensor.dark_sky_hourly_summary
+      - sensor.dark_sky_cloud_coverage
+      - sensor.dark_sky_nearest_storm_distance

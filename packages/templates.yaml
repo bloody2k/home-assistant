@@ -1,0 +1,16 @@
+homeassistant:
+  customize:
+    input_boolean.bedtime:
+      homebridge_hidden: false
+    input_boolean.guestmode:
+      homebridge_hidden: false
+
+input_boolean:
+  bedtime:
+    name: Sengetid
+    initial: off
+    icon: mdi:sleep
+  guestmode:
+    name: Gæster
+    initial: off
+    icon: mdi:account-multiple

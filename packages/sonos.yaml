@@ -1,0 +1,14 @@
+homeassistant:
+  customize:
+    media_player.badevrelse:
+      friendly_name: Sonos Badeværelse
+      homebridge_hidden: false
+    media_player.kkken:
+      friendly_name: Sonos Køkken
+      homebridge_hidden: false
+    media_player.stue:
+      friendly_name: Sonos Stue
+      homebridge_hidden: false
+    media_player.kontor:
+      friendly_name: Sonos Kontor
+      homebridge_hidden: false

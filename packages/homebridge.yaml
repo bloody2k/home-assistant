@@ -1,0 +1,4 @@
+homeassistant:
+  customize_glob:
+    "*":
+      homebridge_hidden: true
