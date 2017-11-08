@@ -1,7 +1,7 @@
 - action:
   - timeout: '100'
     wait_template: ''
-  alias: None
+  alias: GITHUBEDIT
   hide_entity: True
   condition: []
   id: '1508068761813'
